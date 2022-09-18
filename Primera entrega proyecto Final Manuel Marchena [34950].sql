@@ -29,8 +29,8 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 -- https://drive.google.com/file/d/1gZYTrWMkQPZFyMJP-t8d_0thX_or1LZy/view?usp=sharing
 -- 1.- CREATE DB 
 
-CREATE DATABASE IF NOT EXISTS proyecto_final_SQL1;
-USE proyecto_final_SQL1;
+CREATE DATABASE IF NOT EXISTS proyecto_final_SQL;
+USE proyecto_final_SQL;
 
 -- 2.- CREATE TABLE 
 
