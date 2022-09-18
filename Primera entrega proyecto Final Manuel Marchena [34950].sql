@@ -11,147 +11,53 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 /*******************************************
 					INDICE
 	Contenido							  Linea
-I.- Diagrama Entidad- Relacion 				32
-1.- Descripción teórica del proyecto		35
-2.- Definición de la DB						43
-3.- Tablas contenidas en la Base de Datos	49
-4.- CREATE DB 								64
-5.- CREATE TABLE							69
-	5.1.- departamento						73
-    5.2.- estado							97
-    5.3.- permisos							118
-    5.4.- prioridad							138
-    5.5.- rol								158
-    5.6.- equipos							188
-	5.7.- Usuarios							219
-    5.7.- tipo								280
-	5.9.- proyecto 							304
-	5.2.- documento							342
+1.- CREATE DB 								30
+2.- CREATE TABLE							35
+	2.1.- departamento						37
+    2.2.- estado							45
+    2.3.- permisos							52
+    2.4.- prioridad							60
+    2.5.- rol								68
+    2.6.- equipos							79
+	2.7.- Usuarios							91
+    2.8.- tipo								117
+	2.9.- proyecto 							125
+	2.10.- documento						140
 *********************************************/
 
 -- I.- Diagrama Entidad- Relacion 
 -- https://drive.google.com/file/d/1gZYTrWMkQPZFyMJP-t8d_0thX_or1LZy/view?usp=sharing
+-- 1.- CREATE DB 
 
-/* 1.- DESCRIPCIÓN TEÓRICA DEL POYECTO
-La base de datos estará estructurada de manera que podrá almacenar la documentación
-de los proyectos (definición funcional de Backend, Frontend, Manuales de usuario, 
-entre otros...), los usuarios que forman parte de los equipos tendrán acceso a los 
-proyectos y a la documentación, dependiendo del rol de estos podran tener permisos a 
-realizar gestiones sobre la documentación y garantizar la confiabilidad de los datos.
-*/
+CREATE DATABASE IF NOT EXISTS proyecto_final_SQL1;
+USE proyecto_final_SQL1;
 
-/* 2.- DEFINICIÓN DE LA BASE DE DATOS
- 
-La base de datos esta identificada como "proyecto_final_SQL" en esta se creará todas 
-las tablas del proyecto, consultas y demás. 
-*/
+-- 2.- CREATE TABLE 
 
-/* 3.- TABLAS QUE CONTENIDAS EN LA BASE DE DATOS
-La base de datos esta compuesta por las siguientes tablas:
+-- 2.1.- departamento
 
-• Departamento
-• Documentos
-• Estado
-• Equipos
-• Permisos
-• Prioridad
-• Proyectos
-• Rol
-• Tipo
-• Usuarios
-*/
-
--- 4.- CREATE DB 
-
-CREATE DATABASE IF NOT EXISTS proyecto_final_SQL;
-USE proyecto_final_SQL;
-
--- 5.- CREATE TABLE 
-/* 
-El orden en que se presentan las tablas no tiene ninguna razón particular
-*/
--- 5.1.- departamento
-/********************************************
-** La columna extra, es lo que da el desc table, aproveché la misma estructura
-   del Worckbench
-Departamento se refiere a las diferentes unidades organizacionales como esta
-dividida la empresa, para efectos de garantizar la homogeneidad de los datos
-se le asigno como data type un ENUM
-+----------------------------------------------+
-| 				Departamento                   |
-+----------+------------+-------+------+-------+
-| field    | data type  | null  | key  | extra |
-+----------+------------+-------+------+-------+
-| id_dpto  | INT        | NO    | PK   | AI    |
-+----------+------------+-------+------+-------+
-| dpto     | ENUM       | NO    |      |       |
-+----------+------------+-------+------+-------+
-
-***********************************************/
-    
 CREATE TABLE departamento (
     id_depto INT AUTO_INCREMENT NOT NULL,
     departamento ENUM('Admin', 'Desarrollo', 'Soporte', 'Infraestructura') NOT NULL,
 	PRIMARY KEY(id_depto)
 );
 
--- 5.2.- estado
-/********************************************
-Los estados son para definir si el documento se encuentra vigente aun, tiene
-validez o no
-
-+------------------------------------------------+
-|                     Estado                     |
-+------------+------------+-------+------+-------+
-| field      | data type  | null  | key  | extra |
-+------------+------------+-------+------+-------+
-| id_estado  | INT        | NO    | PK   | AI    |
-+------------+------------+-------+------+-------+
-| estado     | ENUM       | NO    |      |       |
-+------------+------------+-------+------+-------+
-
-********************************************/
+-- 2.2.- estado
 
 CREATE TABLE estado (
     id_estado INT NOT NULL AUTO_INCREMENT,
     estado ENUM('Activo', 'Inactivo') NOT NULL,
     PRIMARY KEY (id_estado)
 );
--- 5.3.- permisos
-/********************************************
-Son las diferentes acciones a las que tendrá acceso un usuario,
-dependiendo de su rol o permisos concedidos podra eliminar,
-agregar, modificar, crear ususarios, roles, permisos o documentos
-+------------------------------------------------+
-|                    Permisos                    |
-+------------+--------------+------+-----+-------+
-| field      | data type    | null | key | extra |
-+------------+--------------+------+-----+-------+
-| id_permiso | INT          | NO   | PK  | AI    |
-+------------+--------------+------+-----+-------+
-| permiso    | VARCHAR(100) | NO   |     |       |
-+------------+--------------+------+-----+-------+
-********************************************/
+-- 2.3.- permisos
+
 CREATE TABLE permisos(
 id_permisos INT NOT NULL AUTO_INCREMENT,
 permiso VARCHAR(60) NOT NULL,
 PRIMARY KEY(id_permisos)
 );
 
--- 5.4.- prioridad
-/********************************************
-La prioridad define que la urgencia con la que se debe finalizar el documento
-
-+---------------------------------------------------+
-|                     Prioridad                     |
-+---------------+------------+-------+------+-------+
-| field         | data type  | null  | key  | extra |
-+---------------+------------+-------+------+-------+
-| id_prioridad  | INT        | NO    | PK   | AI    |
-+---------------+------------+-------+------+-------+
-| prioridad     | ENUM       | NO    |      |       |
-+---------------+------------+-------+------+-------+
-********************************************/
+-- 2.4.- prioridad
 
 CREATE TABLE prioridad (
     id_prioridad INT NOT NULL AUTO_INCREMENT,
@@ -159,22 +65,7 @@ CREATE TABLE prioridad (
     PRIMARY KEY(id_prioridad)
 );
 
--- 5.5.- rol
-/********************************************
-Dependiendo del rol que tengan dentro del equipo podrán realizar diferentes acciones o
-verificar la información
-+----------------------------------------------------+
-|                         Rol                        |
-+-------------+---------------+-------+------+-------+
-| field       | data type     | null  | key  | extra |
-+-------------+---------------+-------+------+-------+
-| id_rol      | INT           | NO    | PK   | AI    |
-+-------------+---------------+-------+------+-------+
-| nombre_rol  | VARCHAR(60)  | NO    |      |       |
-+-------------+---------------+-------+------+-------+
-
-********************************************/
-
+-- 2.5.- rol
 
 CREATE TABLE rol (
     id_rol INT NOT NULL AUTO_INCREMENT,
@@ -185,26 +76,7 @@ CREATE TABLE rol (
 		REFERENCES permisos(id_permisos)
 );
 
--- 5.6.- equipos
-/*******************************************
-Son los grupos de personasresponsables del desarrollo y soporte compuesto
-por desarrolladores BackEnd, FrontEnd, Tech Leader y Project Manager
-
-+------------------------------------------------+
-|                     Equipo                     |
-+------------+--------------+------+-----+-------+
-| field      | data type    | null | key | extra |
-+------------+--------------+------+-----+-------+
-| id_equipo  | INT          | NO   | PK  | AI    |
-+------------+--------------+------+-----+-------+
-| nombre     | VARCHAR(100) | NO   |     |       |
-+------------+--------------+------+-----+-------+
-| usuario_id | INT          | NO   | FK  |       |
-+------------+--------------+------+-----+-------+
-| estado_id  | INT          | NO   | FK  |       |
-+------------+--------------+------+-----+-------+
-
-*******************************************/
+-- 2.6.- equipos
 
 CREATE TABLE equipo (
     id_equipo INT NOT NULL AUTO_INCREMENT,
@@ -216,42 +88,7 @@ CREATE TABLE equipo (
         REFERENCES estado (id_estado)
 );
 
--- 5.7.- Usuarios
-/********************************************
-Son los usuarios que participan en los proyectos y tienen acceso a los documento
-
-+--------------------------------------------------------------+
-|                            Usuario                           |
-+---------------------+---------------+-------+--------+-------+
-| field               | data type     | null  | key    | extra |
-+---------------------+---------------+-------+--------+-------+
-| id_usuario          | INT           | NO    | PK     | AI    |
-+---------------------+---------------+-------+--------+-------+
-| nombre              | VARCHAR(100)  | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| apellido            | VARCHAR(100)  | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| DNI                 | BIGINT        | NO    | UNIQUE |       |
-+---------------------+---------------+-------+--------+-------+
-| contrasena          | VARCHAR(20)   | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| usuario             | VARCHAR(20)   | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| fecha_creacion      | DATETIME      | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| fecha_modificacion  | DATETIME      | NO    |        |       |
-+---------------------+---------------+-------+--------+-------+
-| estado_id           | INT           | NO    | FK     |       |
-+---------------------+---------------+-------+--------+-------+
-| rol_id              | INT           | NO    | FK     |       |
-+---------------------+---------------+-------+--------+-------+
-| equipo_id           | INT           | NO    | FK     |       |
-+---------------------+---------------+-------+--------+-------+
-| departamento_ id    | INT           | NO    | FK     |       |
-+---------------------+---------------+-------+--------+-------+
-
-
-********************************************/
+-- 2.7.- Usuarios
 
 CREATE TABLE usuario (
     id_usuario INT NOT NULL AUTO_INCREMENT,
@@ -277,22 +114,7 @@ CREATE TABLE usuario (
         REFERENCES equipo (id_equipo)
 );
 
--- 5.7.- tipo
-/*******************************************
-Define que tipo de documento se esta ingresando en la DB, definición funcional, manual
-de usuario, entre otros...
-
-+-------------------------------------------------+
-|                       Tipo                      |
-+----------+---------------+-------+------+-------+
-| field    | data type     | null  | key  | extra |
-+----------+---------------+-------+------+-------+
-| id_tipo  | INT           | NO    | PK   | AI    |
-+----------+---------------+-------+------+-------+
-| tipo     | VARCHAR(100)  | NO    |      |       |
-+----------+---------------+-------+------+-------+
-
-*******************************************/
+-- 2.8.- tipo
 
 CREATE TABLE tipo (
     id_tipo INT NOT NULL AUTO_INCREMENT,
@@ -300,31 +122,7 @@ CREATE TABLE tipo (
     PRIMARY KEY (id_tipo)
 );
 
-
--- 5.9.- proyecto
-/********************************************
-Cada proyecto es asigando a un equipo que será responsable de su desarrollo 
-y soporte, estos son los que tienen acceso al proyecto y su documentación. 
-
-+------------------------------------------------------------+
-|                          Proyecto                          |
-+---------------------+---------------+-------+------+-------+
-| field               | data type     | null  | key  | extra |
-+---------------------+---------------+-------+------+-------+
-| id_proyecto         | INT           | NO    | PK   | AI    |
-+---------------------+---------------+-------+------+-------+
-| nombre_proyecto     | VARCHAR(100)  | NO    |      |       |
-+---------------------+---------------+-------+------+-------+
-| fecha_creacion      | TIMESTAMP      | NO    |      |       |
-+---------------------+---------------+-------+------+-------+
-| fecha_modificacion  | TIMESTAMP    | NO    |      |       |
-+---------------------+---------------+-------+------+-------+
-| equipo_id          | INT           | NO    | FK   |       |
-+---------------------+---------------+-------+------+-------+
-| estado_id           | INT           | NO    | FK   |       |
-+---------------------+---------------+-------+------+-------+
-
-*******************************************/
+-- 2.9.- proyecto
 
 CREATE TABLE proyecto (
     id_proyecto INT NOT NULL AUTO_INCREMENT,
@@ -339,40 +137,7 @@ CREATE TABLE proyecto (
         REFERENCES estado (id_estado)
 );
 
--- 5.10.- Documentos
-/********************************************
-Los documentos para almacenar serán las definiciones funcionales, manuales 
-de usuarios y el documento que se realizó, la estructura de la tabla se 
-espera contenga los datos necesarios para identificar el documento.
-
-+----------------------------------------------------------+
-|                         Documento                        |
-+-------------------+---------------+-------+------+-------+
-| field             | data type     | null  | key  | extra |
-+-------------------+---------------+-------+------+-------+
-| id_documento      | INT           | NO    | PK   | AI    |
-+-------------------+---------------+-------+------+-------+
-| nombre_doc        | VARCHAR(100)  | NO    |      |       |
-+-------------------+---------------+-------+------+-------+
-| documento         | BLOB          | SI    |      |       |
-+-------------------+---------------+-------+------+-------+
-| fecha_creacion    | DATETIME      | NO    |      |       |
-+-------------------+---------------+-------+------+-------+
-| fecha_moficacion  | DATETIME      | NO    |      |       |
-+-------------------+---------------+-------+------+-------+
-| prioridad_id      | INT           | NO    | FK   |       |
-+-------------------+---------------+-------+------+-------+
-| estado_id         | INT           | NO    | FK   |       |
-+-------------------+---------------+-------+------+-------+
-| usuario_id        | INT           | NO    | FK   |       |
-+-------------------+---------------+-------+------+-------+
-| proyecto_id       | INT           | NO    | FK   |       |
-+-------------------+---------------+-------+------+-------+
-| tipo_id           | INT           | NO    | FK   |       |
-+-------------------+---------------+-------+------+-------+
-********************************************/
-
-
+-- 2.10.- Documentos
 
 CREATE TABLE documento (
     id_documento INT NOT NULL AUTO_INCREMENT,
