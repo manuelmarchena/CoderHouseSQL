@@ -22,7 +22,7 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 	2.7.- Usuarios							91
     2.8.- tipo								117
 	2.9.- proyecto 							125
-	2.10.- documento						140
+	2.10.- documento						138
 *********************************************/
 
 -- I.- Diagrama Entidad- Relacion 
@@ -96,7 +96,7 @@ CREATE TABLE usuario (
     apellido VARCHAR(100) NOT NULL,
     DNI BIGINT NOT NULL UNIQUE,
     contrasena VARCHAR(20) NOT NULL,
-    usuario VARCHAR(20) NOT NULL,
+    CONTACTO VARCHAR(20) NOT NULL,
     fecha_creacion DATETIME NOT NULL,
     fecha_modificacion DATETIME NOT NULL,
     estado_id INT NOT NULL,
@@ -126,15 +126,13 @@ CREATE TABLE tipo (
 
 CREATE TABLE proyecto (
     id_proyecto INT NOT NULL AUTO_INCREMENT,
+    nombre_proyecto VARCHAR(70),
     fecha_creacion DATE,
     fecha_modificacion DATE,
     equipo_id INT NOT NULL,
-    estado_id INT NOT NULL,
     PRIMARY KEY(id_proyecto),
     FOREIGN KEY (equipo_id)
-		REFERENCES equipo(id_equipo),
-	FOREIGN KEY (estado_id)
-        REFERENCES estado (id_estado)
+		REFERENCES equipo(id_equipo)
 );
 
 -- 2.10.- Documentos
