@@ -1,4 +1,4 @@
-//********************************************
+/********************************************
 CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 ********************************************/
 /* 	IDENTIFICACIÓN
@@ -326,5 +326,4 @@ INSERT INTO documento VALUES('17', 'It', '2022-06-12', '2021-10-20', '2', '2', '
 INSERT INTO documento VALUES('18', 'Domainer', '2022-04-20', '2022-07-17', '3', '3', '2', '18', '3', '6');
 INSERT INTO documento VALUES('19', 'It', '2022-02-23', '2022-05-16', '1', '1', '1', '19', '4', '1');
 INSERT INTO documento VALUES('20', 'Stringtough', '2021-10-31', '2022-01-04', '2', '2', '2', '20', '5', '2');
-
-
+INSERT INTO documento VALUES('25', 'Tringtough', DATE('2021-10-31'), DATE(curdate()), '2', '2', '2', '20', '5', '2');
