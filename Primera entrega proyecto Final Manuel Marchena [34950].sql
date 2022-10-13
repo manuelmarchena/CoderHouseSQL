@@ -327,3 +327,53 @@ INSERT INTO documento VALUES('18', 'Domainer', '2022-04-20', '2022-07-17', '3', 
 INSERT INTO documento VALUES('19', 'It', '2022-02-23', '2022-05-16', '1', '1', '1', '19', '4', '1');
 INSERT INTO documento VALUES('20', 'Stringtough', '2021-10-31', '2022-01-04', '2', '2', '2', '20', '5', '2');
 INSERT INTO documento VALUES('25', 'Tringtough', DATE('2021-10-31'), DATE(curdate()), '2', '2', '2', '20', '5', '2');
+
+-- **********************
+-- ****** TRIGGERS ******
+
+CREATE TABLE log_documentos (
+    registro INT AUTO_INCREMENT,
+    usuario_id INT,
+    id_documento INT,
+    fecha_modificacion DATE,
+    PRIMARY KEY (registro)
+    ) COMMENT ='Se registra la modificación de documentos';
+    
+    CREATE TABLE log_eliminados (
+doc_eliminados INT AUTO_INCREMENT,
+id_documento INT,
+fecha_eliminado DATE,
+hora_eliminado TIME,
+usuario_id INT,
+documento BLOB,
+proyecto_id INT,
+PRIMARY KEY (doc_eliminados)
+) COMMENT = 'Se registran los documentos eliminados';
+
+CREATE TABLE cambio_rol (
+cambio_rol INT AUTO_INCREMENT,
+usuario VARCHAR(60),
+id_usuario INT,
+rol_id INT,
+rol_nuevo INT,
+PRIMARY KEY(cambio_rol)
+);
+
+-- Para probar trigger BEFORE DELETE [documento]
+DELETE FROM documento 
+WHERE
+    id_documento = 100;
+
+-- Para probar trigger AFTER INSERT [documento]
+INSERT INTO documento VALUES(NULl, 'Tringtough', NOW(), NOW(), '2', '2', '2', '20', '5', '2');
+
+-- Para probar trigger AFTER INSERT [usuario]
+SELECT * FROM usuario;
+UPDATE usuario
+SET rol_id = 2
+WHERE id_usuario = 34;
+
+-- Para probar trigger AFTER y BEFORE [usuario]
+INSERT INTO usuario VALUES('39', 'Mannie', 'Eagling', '961546053', 'meaglingYY', 'GISaxTUov', '65-577-1147', NOW() , NOW(), '1', '5', '3', '2');
+
+SHOW TRIGGERS FROM proyecto_final_sql;
