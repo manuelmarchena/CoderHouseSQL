@@ -359,6 +359,20 @@ rol_nuevo INT,
 PRIMARY KEY(cambio_rol)
 );
 
+
+CREATE TABLE historial_contacto(
+id_historial INT AUTO_INCREMENT NOT NULL,
+usuario_id INT,
+usuario VARCHAR(60),
+contacto VARCHAR(60),
+fecha_cambio DATE,
+hora_cambio DATETIME,
+PRIMARY KEY (id_historial),
+FOREIGN KEY(usuario_id) 
+REFERENCES usuario(id_usuario)
+);
+
+
 -- Para probar trigger BEFORE DELETE [documento]
 DELETE FROM documento 
 WHERE
