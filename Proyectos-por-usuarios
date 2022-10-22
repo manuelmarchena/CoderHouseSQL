@@ -1,0 +1,31 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proyectos_por_usuario`(
+IN v_nombre VARCHAR(60),
+IN v_apellido VARCHAR(60)
+)
+BEGIN
+DECLARE v_id_usuario INT;
+
+SELECT us.id_usuario
+INTO v_id_usuario
+FROM usuario AS us
+        WHERE
+            us.nombre = v_nombre
+                AND us.apellido = v_apellido;
+IF v_id_usuario != '' THEN
+SELECT
+    us.id_usuario,
+    us.nombre,
+    us.apellido,
+    pro.nombre_proyecto
+FROM
+    usuario AS us
+        INNER JOIN
+    equipo AS equi ON us.equipo_id = equi.id_equipo
+        INNER JOIN
+    proyecto AS pro ON pro.equipo_id = equi.id_equipo
+WHERE
+    us.id_usuario = v_id_usuario;
+ELSE 
+	SELECT 'No existe' AS errormsg;
+    END IF;
+    END
