@@ -1,6 +1,6 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proyectos_por_usuario`(
-IN v_nombre VARCHAR(60),
-IN v_apellido VARCHAR(60)
+IN p_nombre VARCHAR(60),
+IN p_apellido VARCHAR(60)
 )
 BEGIN
 DECLARE v_id_usuario INT;
@@ -9,8 +9,8 @@ SELECT us.id_usuario
 INTO v_id_usuario
 FROM usuario AS us
         WHERE
-            us.nombre = v_nombre
-                AND us.apellido = v_apellido;
+            us.nombre = p_nombre
+                AND us.apellido = p_apellido;
 IF v_id_usuario != '' THEN
 SELECT
     us.id_usuario,
