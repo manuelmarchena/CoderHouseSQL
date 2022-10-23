@@ -6,12 +6,17 @@ IN p_order VARCHAR(20)
 BEGIN
 DECLARE v_id_usuario INT;
 
+-- Verifico si el usuario ingreso datos correctos
+
 SELECT us.id_usuario
 INTO v_id_usuario
 FROM usuario AS us
         WHERE
             us.nombre = p_nombre
                 AND us.apellido = p_apellido;
+
+-- En caso de que usuario introdujo ddatos correctos realizo la consulta
+
 IF v_id_usuario != '' THEN
 	IF p_order = 'ASC' OR p_order = 'DESC' THEN
 	SELECT
@@ -28,12 +33,20 @@ IF v_id_usuario != '' THEN
 	WHERE
 		us.id_usuario = v_id_usuario
         ORDER BY 
+	
+-- Ordeno los resultados según lo introducido por el usuario
+	
         CASE WHEN p_order = 'ASC' THEN pro.nombre_proyecto END ASC,
-         CASE WHEN p_order = 'DESC' THEN pro.nombre_proyecto END DESC;
+        CASE WHEN p_order = 'DESC' THEN pro.nombre_proyecto END DESC;
 	ELSE
+-- En caso de que complete con algo difernete de ASC o DESC 
+
 		SELECT 'Solo puede completar con ASC o DESC' AS errormsg; 
         END IF;
     ELSE 
+  
+  -- En caso de que complete con valores que no existen 
+  
 		SELECT 'No existe || Datos erroneos' AS errormsg;
         END IF;
     END
