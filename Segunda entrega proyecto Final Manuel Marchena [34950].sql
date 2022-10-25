@@ -10,27 +10,27 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 
 /*******************************************
 					INDICE
-	Contenido							  Linea
+	Contenido				      Linea
 I.- Diagrama Entidad- Relacion 				37
-1.- CREATE DB 								39
-2.- CREATE TABLE							45
-    2.1.- departamento						47
-    2.2.- estado							55
-    2.3.- permisos							63
-    2.4.- prioridad							71
-    2.5.- rol								79
-    2.6.- rol-permisos						87
-    2.7.- equipos							100
-    2.8.- usuarios							108
-    2.9.- tipo								135
-    2.10.- proyecto 						143
-    2.11.- documento						156
-3.- INSERT INTO								182
-	3.1.- Por Script						184
-		3.1.1.- prioridad					186		
-		3.1.2.- tipo						192		
-		3.1.3.- estado						201
-		3.1.4.- permisos					206
+1.- CREATE DB 						39
+2.- CREATE TABLE					45
+    2.1.- departamento					47
+    2.2.- estado					55
+    2.3.- permisos					63
+    2.4.- prioridad					71
+    2.5.- rol						79
+    2.6.- rol-permisos					87
+    2.7.- equipos					100
+    2.8.- usuarios					108
+    2.9.- tipo						135
+    2.10.- proyecto 					143
+    2.11.- documento					156
+3.- INSERT INTO						182
+	3.1.- Por Script				184
+		3.1.1.- prioridad			186		
+		3.1.2.- tipo				192		
+		3.1.3.- estado				201
+		3.1.4.- permisos			206
         3.1.5.- departamento				216
 4.- INSERT INTO para poblar DB 				223
 *********************************************/
@@ -317,20 +317,20 @@ INSERT INTO documento VALUES('7', 'Solarbreeze', NULL, CURDATE(), CURDATE(), '1'
 INSERT INTO documento VALUES('8', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '8', '3');
 INSERT INTO documento VALUES('9', 'Alpha', NULL, CURDATE(), CURDATE(), '3', '1', '1', '9', '4');
 INSERT INTO documento VALUES('10', 'Flowdesk', NULL, CURDATE(), CURDATE(), '1', '1', '2', '10', '5');
-INSERT INTO documento VALUES('11', 'Voltsillam', NULL, CURDATE(), CURDATE(), '2', '2', '1', '11', '1');
-INSERT INTO documento VALUES('12', 'Treeflex', NULL, CURDATE(), CURDATE(), '3', '1', '2', '12', '2');
-INSERT INTO documento VALUES('13', 'Bigtax', NULL, CURDATE(), CURDATE(), '1', '1', '1', '13', '3');
-INSERT INTO documento VALUES('14', 'Sonsing', NULL, CURDATE(), CURDATE(), '2', '2', '2', '14', '4');
-INSERT INTO documento VALUES('15', 'Latlux', NULL, CURDATE(), CURDATE(), '3', '1', '1', '15', '5');
-INSERT INTO documento VALUES('16', 'Greenlam', NULL, CURDATE(), CURDATE(), '1', '1', '2', '16', '1');
-INSERT INTO documento VALUES('17', 'It', NULL, CURDATE(), CURDATE(), '2', '2', '1', '17', '2');
-INSERT INTO documento VALUES('18', 'Domainer', NULL, CURDATE(), CURDATE(), '3', '1', '2', '18', '3');
-INSERT INTO documento VALUES('19', 'It', NULL, CURDATE(), CURDATE(), '1', '1', '1', '19', '4');
-INSERT INTO documento VALUES('20', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '20', '5');
+INSERT INTO documento VALUES('11', 'Voltsillam', NULL, CURDATE(), CURDATE(), '2', '2', '1', '1', '1');
+INSERT INTO documento VALUES('12', 'Treeflex', NULL, CURDATE(), CURDATE(), '3', '1', '2', '2', '2');
+INSERT INTO documento VALUES('13', 'Bigtax', NULL, CURDATE(), CURDATE(), '1', '1', '1', '3', '3');
+INSERT INTO documento VALUES('14', 'Sonsing', NULL, CURDATE(), CURDATE(), '2', '2', '2', '4', '4');
+INSERT INTO documento VALUES('15', 'Latlux', NULL, CURDATE(), CURDATE(), '3', '1', '1', '5', '5');
+INSERT INTO documento VALUES('16', 'Greenlam', NULL, CURDATE(), CURDATE(), '1', '1', '2', '6', '1');
+INSERT INTO documento VALUES('17', 'It', NULL, CURDATE(), CURDATE(), '2', '2', '1', '7', '2');
+INSERT INTO documento VALUES('18', 'Domainer', NULL, CURDATE(), CURDATE(), '3', '1', '2', '8', '3');
+INSERT INTO documento VALUES('19', 'It', NULL, CURDATE(), CURDATE(), '1', '1', '1', '9', '4');
+INSERT INTO documento VALUES('20', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
 
-select*from documento;
 -- **********************
 -- ****** TRIGGERS ******
+-- **********************
 
 CREATE TABLE log_documentos (
     registro INT AUTO_INCREMENT,
@@ -338,6 +338,7 @@ CREATE TABLE log_documentos (
     id_documento INT,
     fecha_eliminado DATE,
 	hora_eliminado TIME,
+    usuario_actual VARCHAR(60),
     PRIMARY KEY (registro)
     ) COMMENT ='Se registra la modificación de documentos';
     
@@ -371,24 +372,87 @@ CREATE TABLE log_old_records (
   usuario_id int(11) DEFAULT NULL,
   documento blob DEFAULT NULL,
   proyecto_id int(11) DEFAULT NULL,
+  usuario_actual VARCHAR(60),
   PRIMARY KEY (doc_baja)
 );
+
+CREATE TABLE log_historial_contacto (
+id_historial INT AUTO_INCREMENT,
+id_usuario INT,
+contacto VARCHAR(60),
+fecha_modificacion DATE, 
+hora_modificacion TIME,
+usuario_actual VARCHAR(60),
+PRIMARY KEY(id_historial)
+);
+
+-- *****************************
 
 -- Para probar trigger BEFORE DELETE [documento]
 DELETE FROM documento 
 WHERE
-    id_documento = 100;
+    id_documento = 20;
+-- Verifica si el doc borrado se almacenó en la tabla log_old_records
+ 
+SELECT 
+    *
+FROM
+    log_old_records;
+
+-- ****************************
 
 -- Para probar trigger AFTER INSERT [documento]
-INSERT INTO documento VALUES(NULl, 'Tringtough', NOW(), NOW(), '2', '2', '2', '20', '5', '2');
 
--- Para probar trigger AFTER INSERT [usuario]
+INSERT INTO documento VALUES('23', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
+
+-- Ver tabla de log 
+SELECT 
+    *
+FROM
+    log_documentos;
+
+-- Ver tabla donde se guarda la información
+SELECT 
+    *
+FROM
+    documento;
+
+-- ****************************
+
+-- Para probar trigger BEFORE UPDATE [usuario]
+
+-- Para listado de usuarios
 SELECT * FROM usuario;
+
+-- UPDATE para prograr trigger
 UPDATE usuario
 SET rol_id = 2
-WHERE id_usuario = 34;
+WHERE id_usuario = 21;
 
--- Para probar trigger AFTER y BEFORE [usuario]
-INSERT INTO usuario VALUES('39', 'Mannie', 'Eagling', '961546053', 'meaglingYY', 'GISaxTUov', '65-577-1147', NOW() , NOW(), '1', '5', '3', '2');
+-- Verificar ingreso de datos en el log
+select * from log_historial_contacto;
+
+-- ****************************
+
+-- Para probar trigger AFTER update [usuario]
+
+-- Ver listado de usuarios 
+
+SELECT 
+    *
+FROM
+    usuario;
+
+-- UPDATE de usuario
+
+UPDATE usuario
+SET contacto = 11-686-28-956
+WHERE id_usuario = 21;
+
+-- Ver log de registros 
+
+SELECT * FROM log_historial_contacto;
+
+-- Ver todos los triggers 
 
 SHOW TRIGGERS FROM proyecto_final_sql;
