@@ -12,25 +12,25 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 					INDICE
 	Contenido							  Linea
 I.- Diagrama Entidad- Relacion 				37
-1.- CREATE DB 						39
-2.- CREATE TABLE					45
-    2.1.- departamento					47
-    2.2.- estado					55
-    2.3.- permisos					63
-    2.4.- prioridad					71
-    2.5.- rol						79
-    2.6.- rol-permisos					87
-    2.7.- equipos					100
-    2.8.- usuarios					108
-    2.9.- tipo						135
-    2.10.- proyecto 					143
-    2.11.- documento					156
-3.- INSERT INTO						182
-	3.1.- Por Script				184
-		3.1.1.- prioridad			186		
-		3.1.2.- tipo				192		
-		3.1.3.- estado				201
-		3.1.4.- permisos			206
+1.- CREATE DB 								39
+2.- CREATE TABLE							45
+    2.1.- departamento						47
+    2.2.- estado							55
+    2.3.- permisos							63
+    2.4.- prioridad							71
+    2.5.- rol								79
+    2.6.- rol-permisos						87
+    2.7.- equipos							100
+    2.8.- usuarios							108
+    2.9.- tipo								135
+    2.10.- proyecto 						143
+    2.11.- documento						156
+3.- INSERT INTO								182
+	3.1.- Por Script						184
+		3.1.1.- prioridad					186		
+		3.1.2.- tipo						192		
+		3.1.3.- estado						201
+		3.1.4.- permisos					206
         3.1.5.- departamento				216
 4.- INSERT INTO para poblar DB 				223
 *********************************************/
@@ -39,8 +39,8 @@ I.- Diagrama Entidad- Relacion 				37
 -- https://drive.google.com/file/d/1gZYTrWMkQPZFyMJP-t8d_0thX_or1LZy/view?usp=sharing
 -- 1.- CREATE DB 
 
-CREATE DATABASE IF NOT EXISTS proyecto_final_SQL1;
-USE proyecto_final_SQL1;-
+CREATE DATABASE IF NOT EXISTS proyecto_final_SQL;
+USE proyecto_final_SQL;
 
 -- 2.- CREATE TABLE 
 
@@ -159,8 +159,8 @@ CREATE TABLE IF NOT EXISTS documento (
     id_documento INT NOT NULL AUTO_INCREMENT,
     nombre_doc VARCHAR(100) NOT NULL,
     documento BLOB COMMENT 'Para almacenar el .doc o .PDF',
-    fecha_creacion DATETIME NOT NULL,
-    fecha_moficacion DATETIME NOT NULL,
+    fecha_creacion DATE NOT NULL,
+    fecha_moficacion DATE NOT NULL,
     prioridad_id INT NOT NULL,
     estado_id INT NOT NULL,
     usuario_id INT NOT NULL COMMENT 'usuario que creó el dcumento',
@@ -307,28 +307,28 @@ INSERT INTO usuario VALUES('35', 'Mannie', 'Eagling', '1931546053', 'meaglingy',
 
 
 -- documentos
-INSERT INTO documento VALUES('1', 'Konklux', '2022-04-05', '2021-11-07', '1', '1', '1', '1', '1', '1');
-INSERT INTO documento VALUES('2', 'Lotlux', '2022-06-19', '2022-03-28', '2', '2', '2', '2', '2', '2');
-INSERT INTO documento VALUES('3', 'Rank', '2022-04-19', '2021-12-20', '3', '3', '1', '3', '3', '3');
-INSERT INTO documento VALUES('4', 'Y-Solowarm', '2022-04-20', '2022-06-16', '1', '1', '2', '4', '4', '4');
-INSERT INTO documento VALUES('5', 'Hatity', '2022-04-20', '2022-04-13', '2', '2', '1', '5', '5', '5');
-INSERT INTO documento VALUES('6', 'Bamity', '2022-04-23', '2021-12-08', '3', '3', '2', '6', '1', '6');
-INSERT INTO documento VALUES('7', 'Solarbreeze', '2022-08-30', '2021-09-29', '1', '1', '1', '7', '2', '1');
-INSERT INTO documento VALUES('8', 'Stringtough', '2022-08-09', '2022-07-31', '2', '2', '2', '8', '3', '2');
-INSERT INTO documento VALUES('9', 'Alpha', '2022-03-28', '2022-01-18', '3', '3', '1', '9', '4', '3');
-INSERT INTO documento VALUES('10', 'Flowdesk', '2022-09-05', '2022-09-19', '1', '1', '2', '10', '5', '4');
-INSERT INTO documento VALUES('11', 'Voltsillam', '2022-04-08', '2022-01-30', '2', '2', '1', '11', '1', '5');
-INSERT INTO documento VALUES('12', 'Treeflex', '2021-10-08', '2022-03-19', '3', '3', '2', '12', '2', '6');
-INSERT INTO documento VALUES('13', 'Bigtax', '2022-06-15', '2021-09-26', '1', '1', '1', '13', '3', '1');
-INSERT INTO documento VALUES('14', 'Sonsing', '2021-09-24', '2022-01-30', '2', '2', '2', '14', '4', '2');
-INSERT INTO documento VALUES('15', 'Latlux', '2022-03-18', '2021-11-26', '3', '3', '1', '15', '5', '3');
-INSERT INTO documento VALUES('16', 'Greenlam', '2022-03-26', '2021-12-11', '1', '1', '2', '16', '1', '4');
-INSERT INTO documento VALUES('17', 'It', '2022-06-12', '2021-10-20', '2', '2', '1', '17', '2', '5');
-INSERT INTO documento VALUES('18', 'Domainer', '2022-04-20', '2022-07-17', '3', '3', '2', '18', '3', '6');
-INSERT INTO documento VALUES('19', 'It', '2022-02-23', '2022-05-16', '1', '1', '1', '19', '4', '1');
-INSERT INTO documento VALUES('20', 'Stringtough', '2021-10-31', '2022-01-04', '2', '2', '2', '20', '5', '2');
-INSERT INTO documento VALUES('25', 'Tringtough', DATE('2021-10-31'), DATE(curdate()), '2', '2', '2', '20', '5', '2');
+INSERT INTO documento VALUES('1', 'Konklux', NULL, CURDATE(), CURDATE(), '1', '1', '1', '1', '1');
+INSERT INTO documento VALUES('2', 'Lotlux', NULL, CURDATE(), CURDATE(), '2', '2', '2', '2', '2');
+INSERT INTO documento VALUES('3', 'Rank', NULL, CURDATE(), CURDATE(), '3', '1', '1', '3', '3');
+INSERT INTO documento VALUES('4', 'Y-Solowarm', NULL, CURDATE(), CURDATE(), '1', '1', '2', '4', '4');
+INSERT INTO documento VALUES('5', 'Hatity', NULL, CURDATE(), CURDATE(), '2', '2', '1', '5', '5');
+INSERT INTO documento VALUES('6', 'Bamity', NULL, CURDATE(), CURDATE(), '3', '1', '2', '6', '1');
+INSERT INTO documento VALUES('7', 'Solarbreeze', NULL, CURDATE(), CURDATE(), '1', '1', '1', '7', '2');
+INSERT INTO documento VALUES('8', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '8', '3');
+INSERT INTO documento VALUES('9', 'Alpha', NULL, CURDATE(), CURDATE(), '3', '1', '1', '9', '4');
+INSERT INTO documento VALUES('10', 'Flowdesk', NULL, CURDATE(), CURDATE(), '1', '1', '2', '10', '5');
+INSERT INTO documento VALUES('11', 'Voltsillam', NULL, CURDATE(), CURDATE(), '2', '2', '1', '11', '1');
+INSERT INTO documento VALUES('12', 'Treeflex', NULL, CURDATE(), CURDATE(), '3', '1', '2', '12', '2');
+INSERT INTO documento VALUES('13', 'Bigtax', NULL, CURDATE(), CURDATE(), '1', '1', '1', '13', '3');
+INSERT INTO documento VALUES('14', 'Sonsing', NULL, CURDATE(), CURDATE(), '2', '2', '2', '14', '4');
+INSERT INTO documento VALUES('15', 'Latlux', NULL, CURDATE(), CURDATE(), '3', '1', '1', '15', '5');
+INSERT INTO documento VALUES('16', 'Greenlam', NULL, CURDATE(), CURDATE(), '1', '1', '2', '16', '1');
+INSERT INTO documento VALUES('17', 'It', NULL, CURDATE(), CURDATE(), '2', '2', '1', '17', '2');
+INSERT INTO documento VALUES('18', 'Domainer', NULL, CURDATE(), CURDATE(), '3', '1', '2', '18', '3');
+INSERT INTO documento VALUES('19', 'It', NULL, CURDATE(), CURDATE(), '1', '1', '1', '19', '4');
+INSERT INTO documento VALUES('20', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '20', '5');
 
+select*from documento;
 -- **********************
 -- ****** TRIGGERS ******
 
