@@ -39,8 +39,8 @@ I.- Diagrama Entidad- Relacion 				37
 -- https://drive.google.com/file/d/1gZYTrWMkQPZFyMJP-t8d_0thX_or1LZy/view?usp=sharing
 -- 1.- CREATE DB 
 
-CREATE DATABASE IF NOT EXISTS proyecto_final_SQL;
-USE proyecto_final_SQL;-
+CREATE DATABASE IF NOT EXISTS proyecto_final_SQL1;
+USE proyecto_final_SQL1;-
 
 -- 2.- CREATE TABLE 
 
@@ -269,41 +269,42 @@ INSERT INTO rol_permisos VALUES('17', '6', '3');
 INSERT INTO rol_permisos VALUES('18', '6', '4');			
 
 -- usuario
-INSERT INTO usuario VALUES('1', 'Queenie', 'Hugo', '5439748172', 'qhugo0', '6yqrVgDhMF', '920-267-0530', '44564', '44810', '1', '1', '1', '3');
-INSERT INTO usuario VALUES('2', 'Tanya', 'Selby', '5508336672', 'tselby1', 'CDBQcVJl', '937-268-7197', '44729', '44810', '1', '2', '2', '1');
-INSERT INTO usuario VALUES('3', 'Coralie', 'Linklet', '3840917263', 'clinklet2', 'JudrhTTM5PIe', '499-945-1540', '44635', '44810', '1', '3', '3', '2');
-INSERT INTO usuario VALUES('4', 'Wayland', 'Mennell', '3877391664', 'wmennell3', 'MrgsGryV1ak', '799-151-9103', '44720', '44778', '2', '4', '4', '3');
-INSERT INTO usuario VALUES('5', 'Bryce', 'MacSporran', '5512381814', 'bmacsporran4', 'NgA2m4kInC', '294-766-6958', '44528', '44778', '1', '5', '1', '4');
-INSERT INTO usuario VALUES('6', 'Arnold', 'Grimley', '3657535519', 'agrimley5', 'ATlwCEgY6', '147-447-2079', '44530', '44721', '1', '1', '2', '1');
-INSERT INTO usuario VALUES('7', 'Barde', 'Knottley', '9621670624', 'bknottley6', 'jYa2wzM', '197-997-4838', '44237', '44778', '1', '2', '3', '2');
-INSERT INTO usuario VALUES('8', 'Bernette', 'McIndrew', '4601490715', 'bmcindrew7', 'UcIOlf', '996-306-8746', '44796', '44778', '1', '3', '4', '3');
-INSERT INTO usuario VALUES('9', 'Brigid', 'Hartley', '6209582796', 'bhartley8', 'MSvxP1ub', '551-236-7114', '44644', '44778', '1', '4', '1', '4');
-INSERT INTO usuario VALUES('10', 'Kristofer', 'Pape', '2136371061', 'kpape9', 'DKcRGSBJuG', '876-378-1005', '44872', '44296', '1', '5', '2', '1');
-INSERT INTO usuario VALUES('11', 'Erinna', 'McGrouther', '8563148192', 'emcgrouthera', 'XwJuq1OrN6ZA', '632-461-9229', '44555', '44599', '1', '1', '3', '2');
-INSERT INTO usuario VALUES('12', 'Kikelia', 'Mitcheson', '4430280991', 'kmitchesonb', 'KWkuwLWHXrb', '833-310-4697', '44585', '44655', '1', '2', '4', '3');
-INSERT INTO usuario VALUES('13', 'Agata', 'Vanetti', '4973277797', 'avanettic', 'rRw606LPASQ', '762-578-5988', '44710', '44898', '2', '3', '1', '4');
-INSERT INTO usuario VALUES('14', 'Haydon', 'Laxon', '7409074523', 'hlaxond', '11E0LwK', '814-593-9980', '44498', '44266', '1', '4', '2', '1');
-INSERT INTO usuario VALUES('15', 'Lucy', 'Gliddon', '9892766512', 'lgliddone', '5XGwIc3uek', '391-501-4121', '44519', '44541', '1', '5', '3', '2');
-INSERT INTO usuario VALUES('16', 'Kristoffer', 'Ninotti', '3368589997', 'kninottif', 'P04yhEgeA8f', '769-858-6608', '44557', '44623', '1', '1', '4', '3');
-INSERT INTO usuario VALUES('17', 'Norine', 'McKernon', '663385652', 'nmckernong', 'yhHV73', '893-416-0942', '44704', '44813', '1', '2', '1', '4');
-INSERT INTO usuario VALUES('18', 'Petr', 'Boik', '6790865179', 'pboikh', '5EmmSdLo9', '594-533-5480', '44596', '44541', '1', '3', '2', '1');
-INSERT INTO usuario VALUES('19', 'Bourke', 'Thoresbie', '9848878963', 'bthoresbiei', 'KzB7atD', '354-268-6476', '44237', '44418', '1', '4', '3', '2');
-INSERT INTO usuario VALUES('20', 'Rodney', 'Flounders', '482635932', 'rfloundersj', '4Zno0g8', '260-600-1607', '44796', '44541', '1', '5', '4', '3');
-INSERT INTO usuario VALUES('21', 'Barbabas', 'Morrill', '8405496653', 'bmorrillk', '2eIr3nYhc', '165-459-0398', '44644', '44358', '1', '1', '1', '4');
-INSERT INTO usuario VALUES('22', 'Jamie', 'Samuel', '3758373255', 'jsamuell', '2PCfKgk', '262-356-1860', '44872', '44541', '1', '2', '2', '1');
-INSERT INTO usuario VALUES('23', 'Verena', 'Luckcock', '7058523401', 'vluckcockm', 'yYwJ6Go', '692-619-5770', '44555', '44541', '1', '3', '3', '2');
-INSERT INTO usuario VALUES('24', 'Geoffry', 'Baldinotti', '2560967731', 'gbaldinottin', 'tGopjt', '996-321-4155', '44585', '44541', '1', '4', '4', '3');
-INSERT INTO usuario VALUES('25', 'Georgiana', 'Arden', '2944405772', 'gardeno', '0BSeWbuZ', '116-220-7033', '44836', '44811', '1', '5', '1', '4');
-INSERT INTO usuario VALUES('26', 'Conroy', 'O Lehane', '9334943068', 'colehanep', 'K6Qpf8mxn6', '260-408-9553', '44745', '44541', '1', '1', '2', '1');
-INSERT INTO usuario VALUES('27', 'Granthem', 'Melton', '5621932161', 'gmeltonq', 'lGBaqO', '373-813-8703', '44237', '44541', '1', '2', '3', '2');
-INSERT INTO usuario VALUES('28', 'Flinn', 'Haslock', '7196823648', 'fhaslockr', 'VbAV6sPy', '954-874-6870', '44796', '44566', '1', '3', '4', '3');
-INSERT INTO usuario VALUES('29', 'Nesta', 'Gerrelts', '3194592106', 'ngerreltss', 'LX7z9Xw2', '631-638-3775', '44644', '44810', '1', '4', '1', '4');
-INSERT INTO usuario VALUES('30', 'Roscoe', 'Rowell', '6385290581', 'rrowellt', 'ZAdQnz126ue', '810-410-3065', '44872', '44541', '1', '5', '2', '1');
-INSERT INTO usuario VALUES('31', 'Christabel', 'Gillison', '9137966189', 'cgillisonu', 'Mhc8BWa7tWP', '812-321-8291', '44555', '44566', '1', '1', '3', '2');
-INSERT INTO usuario VALUES('32', 'Cassaundra', 'McNeillie', '7947055912', 'cmcneilliev', 'o0J8tWo2AxkK', '672-891-2772', '44585', '44810', '1', '2', '4', '3');
-INSERT INTO usuario VALUES('33', 'Angelica', 'Emes', '4382042933', 'aemesw', 'UVO7PprFqhmF', '740-497-6739', '44237', '44541', '1', '3', '1', '4');
-INSERT INTO usuario VALUES('34', 'Luisa', 'Phelit', '7141145109', 'lphelitx', 'glxYBJm', '856-706-1863', '44796', '44266', '1', '4', '2', '1');
-INSERT INTO usuario VALUES('35', 'Mannie', 'Eagling', '1931546053', 'meaglingy', 'GISaxTUov', '626-577-1147', '44644', '44659', '1', '5', '3', '2');
+INSERT INTO usuario VALUES('1', 'Queenie', 'Hugo', '5439748172', 'qhugo0', '6yqrVgDhMF', '920-267-0530', NOW(), NOW(), '1', '1', '1', '3');
+INSERT INTO usuario VALUES('2', 'Tanya', 'Selby', '5508336672', 'tselby1', 'CDBQcVJl', '937-268-7197', NOW(), NOW(), '1', '2', '2', '1');
+INSERT INTO usuario VALUES('3', 'Coralie', 'Linklet', '3840917263', 'clinklet2', 'JudrhTTM5PIe', '499-945-1540', NOW(), NOW(), '1', '3', '3', '2');
+INSERT INTO usuario VALUES('4', 'Wayland', 'Mennell', '3877391664', 'wmennell3', 'MrgsGryV1ak', '799-151-9103', NOW(), NOW(), '2', '4', '4', '3');
+INSERT INTO usuario VALUES('5', 'Bryce', 'MacSporran', '5512381814', 'bmacsporran4', 'NgA2m4kInC', '294-766-6958', NOW(), NOW(), '1', '5', '1', '4');
+INSERT INTO usuario VALUES('6', 'Arnold', 'Grimley', '3657535519', 'agrimley5', 'ATlwCEgY6', '147-447-2079', NOW(), NOW(), '1', '1', '2', '1');
+INSERT INTO usuario VALUES('7', 'Barde', 'Knottley', '9621670624', 'bknottley6', 'jYa2wzM', '197-997-4838', NOW(), NOW(), '1', '2', '3', '2');
+INSERT INTO usuario VALUES('8', 'Bernette', 'McIndrew', '4601490715', 'bmcindrew7', 'UcIOlf', '996-306-8746', NOW(), NOW(), '1', '3', '4', '3');
+INSERT INTO usuario VALUES('9', 'Brigid', 'Hartley', '6209582796', 'bhartley8', 'MSvxP1ub', '551-236-7114', NOW(), NOW(), '1', '4', '1', '4');
+INSERT INTO usuario VALUES('10', 'Kristofer', 'Pape', '2136371061', 'kpape9', 'DKcRGSBJuG', '876-378-1005', NOW(), NOW(), '1', '5', '2', '1');
+INSERT INTO usuario VALUES('11', 'Erinna', 'McGrouther', '8563148192', 'emcgrouthera', 'XwJuq1OrN6ZA', '632-461-9229', NOW(), NOW(), '1', '1', '3', '2');
+INSERT INTO usuario VALUES('12', 'Kikelia', 'Mitcheson', '4430280991', 'kmitchesonb', 'KWkuwLWHXrb', '833-310-4697', NOW(), NOW(), '1', '2', '4', '3');
+INSERT INTO usuario VALUES('13', 'Agata', 'Vanetti', '4973277797', 'avanettic', 'rRw606LPASQ', '762-578-5988', NOW(), NOW(), '2', '3', '1', '4');
+INSERT INTO usuario VALUES('14', 'Haydon', 'Laxon', '7409074523', 'hlaxond', '11E0LwK', '814-593-9980', NOW(), NOW(), '1', '4', '2', '1');
+INSERT INTO usuario VALUES('15', 'Lucy', 'Gliddon', '9892766512', 'lgliddone', '5XGwIc3uek', '391-501-4121', NOW(), NOW(), '1', '5', '3', '2');
+INSERT INTO usuario VALUES('16', 'Kristoffer', 'Ninotti', '3368589997', 'kninottif', 'P04yhEgeA8f', '769-858-6608', NOW(), NOW(), '1', '1', '4', '3');
+INSERT INTO usuario VALUES('17', 'Norine', 'McKernon', '663385652', 'nmckernong', 'yhHV73', '893-416-0942', NOW(), NOW(), '1', '2', '1', '4');
+INSERT INTO usuario VALUES('18', 'Petr', 'Boik', '6790865179', 'pboikh', '5EmmSdLo9', '594-533-5480', NOW(), NOW(), '1', '3', '2', '1');
+INSERT INTO usuario VALUES('19', 'Bourke', 'Thoresbie', '9848878963', 'bthoresbiei', 'KzB7atD', '354-268-6476', NOW(), NOW(), '1', '4', '3', '2');
+INSERT INTO usuario VALUES('20', 'Rodney', 'Flounders', '482635932', 'rfloundersj', '4Zno0g8', '260-600-1607', NOW(), NOW(), '1', '5', '4', '3');
+INSERT INTO usuario VALUES('21', 'Barbabas', 'Morrill', '8405496653', 'bmorrillk', '2eIr3nYhc', '165-459-0398', NOW(), NOW(), '1', '1', '1', '4');
+INSERT INTO usuario VALUES('22', 'Jamie', 'Samuel', '3758373255', 'jsamuell', '2PCfKgk', '262-356-1860', NOW(), NOW(), '1', '2', '2', '1');
+INSERT INTO usuario VALUES('23', 'Verena', 'Luckcock', '7058523401', 'vluckcockm', 'yYwJ6Go', '692-619-5770', NOW(), NOW(), '1', '3', '3', '2');
+INSERT INTO usuario VALUES('24', 'Geoffry', 'Baldinotti', '2560967731', 'gbaldinottin', 'tGopjt', '996-321-4155', NOW(), NOW(), '1', '4', '4', '3');
+INSERT INTO usuario VALUES('25', 'Georgiana', 'Arden', '2944405772', 'gardeno', '0BSeWbuZ', '116-220-7033', NOW(), NOW(), '1', '5', '1', '4');
+INSERT INTO usuario VALUES('26', 'Conroy', 'O Lehane', '9334943068', 'colehanep', 'K6Qpf8mxn6', '260-408-9553', NOW(), NOW(), '1', '1', '2', '1');
+INSERT INTO usuario VALUES('27', 'Granthem', 'Melton', '5621932161', 'gmeltonq', 'lGBaqO', '373-813-8703', NOW(), NOW(), '1', '2', '3', '2');
+INSERT INTO usuario VALUES('28', 'Flinn', 'Haslock', '7196823648', 'fhaslockr', 'VbAV6sPy', '954-874-6870', NOW(), NOW(), '1', '3', '4', '3');
+INSERT INTO usuario VALUES('29', 'Nesta', 'Gerrelts', '3194592106', 'ngerreltss', 'LX7z9Xw2', '631-638-3775', NOW(), NOW(), '1', '4', '1', '4');
+INSERT INTO usuario VALUES('30', 'Roscoe', 'Rowell', '6385290581', 'rrowellt', 'ZAdQnz126ue', '810-410-3065', NOW(), NOW(), '1', '5', '2', '1');
+INSERT INTO usuario VALUES('31', 'Christabel', 'Gillison', '9137966189', 'cgillisonu', 'Mhc8BWa7tWP', '812-321-8291', NOW(), NOW(), '1', '1', '3', '2');
+INSERT INTO usuario VALUES('32', 'Cassaundra', 'McNeillie', '7947055912', 'cmcneilliev', 'o0J8tWo2AxkK', '672-891-2772', NOW(), NOW(), '1', '2', '4', '3');
+INSERT INTO usuario VALUES('33', 'Angelica', 'Emes', '4382042933', 'aemesw', 'UVO7PprFqhmF', '740-497-6739', NOW(), NOW(), '1', '3', '1', '4');
+INSERT INTO usuario VALUES('34', 'Luisa', 'Phelit', '7141145109', 'lphelitx', 'glxYBJm', '856-706-1863', NOW(), NOW(), '1', '4', '2', '1');
+INSERT INTO usuario VALUES('35', 'Mannie', 'Eagling', '1931546053', 'meaglingy', 'GISaxTUov', '626-577-1147', NOW(), NOW(), '1', '5', '3', '2');
+
 
 -- documentos
 INSERT INTO documento VALUES('1', 'Konklux', '2022-04-05', '2021-11-07', '1', '1', '1', '1', '1', '1');
@@ -335,11 +336,12 @@ CREATE TABLE log_documentos (
     registro INT AUTO_INCREMENT,
     usuario_id INT,
     id_documento INT,
-    fecha_modificacion DATE,
+    fecha_eliminado DATE,
+	hora_eliminado TIME,
     PRIMARY KEY (registro)
     ) COMMENT ='Se registra la modificación de documentos';
     
-    CREATE TABLE log_eliminados (
+CREATE TABLE log_eliminados (
 doc_eliminados INT AUTO_INCREMENT,
 id_documento INT,
 fecha_eliminado DATE,
@@ -350,28 +352,27 @@ proyecto_id INT,
 PRIMARY KEY (doc_eliminados)
 ) COMMENT = 'Se registran los documentos eliminados';
 
-CREATE TABLE cambio_rol (
+CREATE TABLE log_cambio_rol (
 cambio_rol INT AUTO_INCREMENT,
 usuario VARCHAR(60),
 id_usuario INT,
 rol_id INT,
 rol_nuevo INT,
+fecha_eliminado DATE,
+hora_eliminado TIME,
 PRIMARY KEY(cambio_rol)
 );
 
-
-CREATE TABLE historial_contacto(
-id_historial INT AUTO_INCREMENT NOT NULL,
-usuario_id INT,
-usuario VARCHAR(60),
-contacto VARCHAR(60),
-fecha_cambio DATE,
-hora_cambio DATETIME,
-PRIMARY KEY (id_historial),
-FOREIGN KEY(usuario_id) 
-REFERENCES usuario(id_usuario)
+CREATE TABLE log_old_records (
+  doc_baja int(11) NOT NULL AUTO_INCREMENT,
+  id_documento int(11) DEFAULT NULL,
+  fecha_eliminado date DEFAULT NULL,
+  hora_eliminado time DEFAULT NULL,
+  usuario_id int(11) DEFAULT NULL,
+  documento blob DEFAULT NULL,
+  proyecto_id int(11) DEFAULT NULL,
+  PRIMARY KEY (doc_baja)
 );
-
 
 -- Para probar trigger BEFORE DELETE [documento]
 DELETE FROM documento 
