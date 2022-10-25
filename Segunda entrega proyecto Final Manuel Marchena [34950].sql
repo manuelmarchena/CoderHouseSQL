@@ -12,25 +12,25 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 					INDICE
 	Contenido							  Linea
 I.- Diagrama Entidad- Relacion 				37
-1.- CREATE DB 								39
-2.- CREATE TABLE							45
-    2.1.- departamento						47
-    2.2.- estado							55
-    2.3.- permisos							63
-    2.4.- prioridad							71
-    2.5.- rol								79
-    2.6.- rol-permisos						87
-    2.7.- equipos							100
-    2.8.- usuarios							108
-    2.9.- tipo								135
-    2.10.- proyecto 						143
-    2.11.- documento						156
-3.- INSERT INTO								182
-	3.1.- Por Script						184
-		3.1.1.- prioridad					186		
-		3.1.2.- tipo						192		
-		3.1.3.- estado						201	
-		3.1.4.- permisos					206
+1.- CREATE DB 						39
+2.- CREATE TABLE					45
+    2.1.- departamento					47
+    2.2.- estado					55
+    2.3.- permisos					63
+    2.4.- prioridad					71
+    2.5.- rol						79
+    2.6.- rol-permisos					87
+    2.7.- equipos					100
+    2.8.- usuarios					108
+    2.9.- tipo						135
+    2.10.- proyecto 					143
+    2.11.- documento					156
+3.- INSERT INTO						182
+	3.1.- Por Script				184
+		3.1.1.- prioridad			186		
+		3.1.2.- tipo				192		
+		3.1.3.- estado				201
+		3.1.4.- permisos			206
         3.1.5.- departamento				216
 4.- INSERT INTO para poblar DB 				223
 *********************************************/
