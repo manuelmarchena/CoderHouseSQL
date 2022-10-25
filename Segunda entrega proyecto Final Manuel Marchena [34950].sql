@@ -336,11 +336,12 @@ CREATE TABLE log_documentos (
     registro INT AUTO_INCREMENT,
     usuario_id INT,
     id_documento INT,
-    fecha_modificacion DATE,
+    fecha_eliminado DATE,
+	hora_eliminado TIME,
     PRIMARY KEY (registro)
     ) COMMENT ='Se registra la modificación de documentos';
     
-    CREATE TABLE log_eliminados (
+CREATE TABLE log_eliminados (
 doc_eliminados INT AUTO_INCREMENT,
 id_documento INT,
 fecha_eliminado DATE,
@@ -351,13 +352,26 @@ proyecto_id INT,
 PRIMARY KEY (doc_eliminados)
 ) COMMENT = 'Se registran los documentos eliminados';
 
-CREATE TABLE cambio_rol (
+CREATE TABLE log_cambio_rol (
 cambio_rol INT AUTO_INCREMENT,
 usuario VARCHAR(60),
 id_usuario INT,
 rol_id INT,
 rol_nuevo INT,
+fecha_eliminado DATE,
+hora_eliminado TIME,
 PRIMARY KEY(cambio_rol)
+);
+
+CREATE TABLE log_old_records (
+  doc_baja int(11) NOT NULL AUTO_INCREMENT,
+  id_documento int(11) DEFAULT NULL,
+  fecha_eliminado date DEFAULT NULL,
+  hora_eliminado time DEFAULT NULL,
+  usuario_id int(11) DEFAULT NULL,
+  documento blob DEFAULT NULL,
+  proyecto_id int(11) DEFAULT NULL,
+  PRIMARY KEY (doc_baja)
 );
 
 -- Para probar trigger BEFORE DELETE [documento]
