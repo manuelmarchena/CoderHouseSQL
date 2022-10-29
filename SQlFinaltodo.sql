@@ -334,7 +334,7 @@ INSERT INTO documento VALUES('20', 'Stringtough', NULL, CURDATE(), CURDATE(), '2
 *******************************/
 
 -- Cambia estado 
-
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cambio_de_estado`(
 IN p_prioridad VARCHAR(20), 
 IN p_nombre VARCHAR(20)
@@ -372,9 +372,10 @@ IF v_id_documento = '' THEN
     SELECT CONCAT('Cambios realizados ', p_nombre, ' tiene prioridad ', p_prioridad) AS datosCorrectos;
     END IF;
 END
-
+//
+DELIMITER ;
 -- PRoyectos por usuario 
-
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proyectos_por_usuario`(
 IN p_nombre VARCHAR(60),
 IN p_apellido VARCHAR(60),
@@ -413,15 +414,21 @@ IF v_id_usuario != '' THEN
     ELSE 
 		SELECT 'No existe || Datos erroneos' AS errormsg;
         END IF;
-    END
+    END;
+//
+DELIMITER ;
     
 /******************************
 		FUNCIONES 
 *******************************/
 
+/******************************
+		USUARIOS INACTIVOS 
+*******************************/
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` FUNCTION `Ususarios_inactivos`(p_DNI BIGINT, p_equipo VARCHAR(10)) RETURNS varchar(10) CHARSET utf8mb4
-    DETERMINISTIC
-BEGIN (
+DETERMINISTIC
+BEGIN 
 DECLARE v_dni VARCHAR(10);
 
 SELECT u.nombre, u.apellido
@@ -435,10 +442,16 @@ WHERE
     e.estado = 'Inactivo'
         AND eq.nombre = p_equipo AND u.DNI= p_DNI;
 RETURN v_dni;
-END )
+END;
+//
+DELIMITER ;
+/********************************
+		DOCUMENTO DEMORADO
+********************************/
 
+DELIMITER //
 CREATE DEFINER=`root`@`localhost` FUNCTION `documento_demorado`(p_nombre_documento VARCHAR(100)) RETURNS varchar(60) CHARSET utf8mb4
-BEGIN(
+BEGIN
 
 DECLARE v_documento VARCHAR(60);
 
@@ -455,13 +468,15 @@ WHERE
         AND DATE_ADD(d.fecha_creacion,
         INTERVAL 180 DAY)< '2022-07-01';
 RETURN v_documento;
-END)
+END;
+//
+
 
 /*******************************
 			VISTAS
 ********************************/
 -- Vista 1 (usuarios_por_equipo)
-
+DELIMITER //
 CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
@@ -474,10 +489,10 @@ VIEW `proyecto_final_sql`.`usuarios_por_equipo` AS
     FROM
         ((`proyecto_final_sql`.`usuario` `usu`
         JOIN `proyecto_final_sql`.`equipo` `equ` ON (`equ`.`id_equipo` = `usu`.`equipo_id`))
-        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `usu`.`rol_id`)))
-        
+        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `usu`.`rol_id`)));
+//
 -- Vista 2 (permisos_por_cargo)
-
+DELIMITER //
 CREATE 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
@@ -489,15 +504,15 @@ VIEW `proyecto_final_sql`.`permisos_por_cargo` AS
     FROM
         ((`proyecto_final_sql`.`permisos` `per`
         JOIN `proyecto_final_sql`.`rol_permisos` `rolp` ON (`rolp`.`permisos_id` = `per`.`id_permisos`))
-        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `rolp`.`rol_id`)))
-
+        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `rolp`.`rol_id`)));
+//
 -- Vista 3 (equipos por proyecto).
-
+//
 CREATE VIEW `equipos_por_proyecto` AS
 (SELECT 
     pro.nombre_proyecto,
     equ.nombre,
-    CONCAT(usu.nombre, ' ', usu.apellido) AS nombre,
+    CONCAT(usu.nombre, ' ', usu.apellido) AS Nombres,
     rol.nombre_rol
 FROM
     proyecto AS pro
@@ -507,9 +522,9 @@ FROM
     usuario AS usu ON equ.id_equipo = usu.equipo_id
         INNER JOIN
     rol ON rol.id_rol = usu.rol_id);
-    
+ //   
 -- Vista 4 (documentos_prioridad_estado)
-
+//
 CREATE VIEW `documentos_prioridad_estado` AS
 SELECT 
     doc.nombre_doc, pri.prioridad, est.estado
@@ -519,9 +534,9 @@ FROM
     prioridad AS pri ON pri.id_prioridad = doc.prioridad_id
         INNER JOIN
     estado AS est ON doc.estado_id = est.id_estado;
-    
+//    
 -- Vista 5 (documento prioridad baja DBA)
-
+//
 CREATE VIEW `documento_prioridad_baja_DBA` AS
 (SELECT 
     doc.nombre_doc, pri.prioridad, est.estado, CONCAT(usu.nombre, ' ', usu.apellido) AS Nombre, rol.nombre_rol 
@@ -538,7 +553,8 @@ FROM
     WHERE rol.nombre_rol = 'DBA'
     AND est.estado = 'Activo'
     AND pri.prioridad = 'Baja');
-
+//
+DELIMITER ;
 -- **********************
 --      TRIGGERS
 -- **********************
