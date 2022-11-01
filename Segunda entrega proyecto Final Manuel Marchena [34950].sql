@@ -10,27 +10,27 @@ CONTROL DE DOCUMENTACIÓN DE PROYECTOS
 
 /*******************************************
 					INDICE
-	Contenido				      Linea
+	Contenido							  Linea
 I.- Diagrama Entidad- Relacion 				37
-1.- CREATE DB 						39
-2.- CREATE TABLE					45
-    2.1.- departamento					47
-    2.2.- estado					55
-    2.3.- permisos					63
-    2.4.- prioridad					71
-    2.5.- rol						79
-    2.6.- rol-permisos					87
-    2.7.- equipos					100
-    2.8.- usuarios					108
-    2.9.- tipo						135
-    2.10.- proyecto 					143
-    2.11.- documento					156
-3.- INSERT INTO						182
-	3.1.- Por Script				184
-		3.1.1.- prioridad			186		
-		3.1.2.- tipo				192		
-		3.1.3.- estado				201
-		3.1.4.- permisos			206
+1.- CREATE DB 								39
+2.- CREATE TABLE							45
+    2.1.- departamento						47
+    2.2.- estado							55
+    2.3.- permisos							63
+    2.4.- prioridad							71
+    2.5.- rol								79
+    2.6.- rol-permisos						87
+    2.7.- equipos							100
+    2.8.- usuarios							108
+    2.9.- tipo								135
+    2.10.- proyecto 						143
+    2.11.- documento						156
+3.- INSERT INTO								182
+	3.1.- Por Script						184
+		3.1.1.- prioridad					186		
+		3.1.2.- tipo						192		
+		3.1.3.- estado						201
+		3.1.4.- permisos					206
         3.1.5.- departamento				216
 4.- INSERT INTO para poblar DB 				223
 *********************************************/
@@ -328,8 +328,235 @@ INSERT INTO documento VALUES('18', 'Domainer', NULL, CURDATE(), CURDATE(), '3', 
 INSERT INTO documento VALUES('19', 'It', NULL, CURDATE(), CURDATE(), '1', '1', '1', '9', '4');
 INSERT INTO documento VALUES('20', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
 
+
+/******************************
+		STORED PROCEDURES
+*******************************/
+
+-- Cambia estado 
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cambio_de_estado`(
+IN p_prioridad VARCHAR(20), 
+IN p_nombre VARCHAR(20)
+)
+BEGIN
+
+DECLARE v_id_documento INT;
+DECLARE v_nombre VARCHAR(60);
+DECLARE v_prioridad VARCHAR(20);
+
+SELECT d.id_documento
+INTO v_id_documento
+FROM documento  AS d 
+INNER JOIN
+    prioridad AS p ON p.id_prioridad = d.prioridad_id
+WHERE
+    d.nombre_doc = p_nombre
+    AND CASE
+     WHEN p_prioridad = 'Alta' THEN d.prioridad_id = 1
+     WHEN p_prioridad = 'Media' THEN d.prioridad_id = 2
+     WHEN p_prioridad = 'Baja' THEN d.prioridad_id = 3
+     END;
+
+IF v_id_documento = '' THEN 
+	SELECT 'No existe' AS datosIncorrectos;
+    ELSE
+		UPDATE documento AS d
+        SET d.prioridad_id = CASE
+			WHEN p_prioridad = 'Alta' THEN d.prioridad_id = 1
+			WHEN p_prioridad = 'Media' THEN d.prioridad_id = 2
+			WHEN p_prioridad = 'Baja' THEN d.prioridad_id = 3
+	END
+    WHERE
+		id_documento = v_id_documento;
+    SELECT CONCAT('Cambios realizados ', p_nombre, ' tiene prioridad ', p_prioridad) AS datosCorrectos;
+    END IF;
+END
+//
+DELIMITER ;
+-- PRoyectos por usuario 
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proyectos_por_usuario`(
+IN p_nombre VARCHAR(60),
+IN p_apellido VARCHAR(60),
+IN p_order VARCHAR(20)
+)
+BEGIN
+DECLARE v_id_usuario INT;
+
+SELECT us.id_usuario
+INTO v_id_usuario
+FROM usuario AS us
+        WHERE
+            us.nombre = p_nombre
+                AND us.apellido = p_apellido;
+IF v_id_usuario != '' THEN
+	IF p_order = 'ASC' OR p_order = 'DESC' THEN
+	SELECT
+		us.id_usuario,
+		us.nombre,
+		us.apellido,
+		pro.nombre_proyecto
+	FROM
+		usuario AS us
+			INNER JOIN
+		equipo AS equi ON us.equipo_id = equi.id_equipo
+			INNER JOIN
+		proyecto AS pro ON pro.equipo_id = equi.id_equipo
+	WHERE
+		us.id_usuario = v_id_usuario
+        ORDER BY 
+        CASE WHEN p_order = 'ASC' THEN pro.nombre_proyecto END ASC,
+         CASE WHEN p_order = 'DESC' THEN pro.nombre_proyecto END DESC;
+	ELSE
+		SELECT 'Solo puede completar con ASC o DESC' AS errormsg; 
+        END IF;
+    ELSE 
+		SELECT 'No existe || Datos erroneos' AS errormsg;
+        END IF;
+    END;
+//
+DELIMITER ;
+    
+/******************************
+		FUNCIONES 
+*******************************/
+
+/******************************
+		USUARIOS INACTIVOS 
+*******************************/
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` FUNCTION `Ususarios_inactivos`(p_DNI BIGINT, p_equipo VARCHAR(10)) RETURNS varchar(10) CHARSET utf8mb4
+DETERMINISTIC
+BEGIN 
+DECLARE v_dni VARCHAR(10);
+
+SELECT u.nombre, u.apellido
+INTO v_dni
+FROM usuario AS u
+ INNER JOIN
+    estado AS e ON u.estado_id = e.id_estado
+        INNER JOIN
+    equipo AS eq ON eq.id_equipo = u.equipo_id
+WHERE
+    e.estado = 'Inactivo'
+        AND eq.nombre = p_equipo AND u.DNI= p_DNI;
+RETURN v_dni;
+END;
+//
+DELIMITER ;
+/********************************
+		DOCUMENTO DEMORADO
+********************************/
+
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` FUNCTION `documento_demorado`(p_nombre_documento VARCHAR(100)) RETURNS varchar(60) CHARSET utf8mb4
+BEGIN
+
+DECLARE v_documento VARCHAR(60);
+
+
+SELECT DISTINCT 
+    d.documento
+INTO v_documento
+FROM
+    documento AS d
+        INNER JOIN
+    prioridad AS p ON d.prioridad_id = p.id_prioridad
+WHERE
+    p.prioridad = 'Alta'
+        AND DATE_ADD(d.fecha_creacion,
+        INTERVAL 180 DAY)< '2022-07-01';
+RETURN v_documento;
+END;
+//
+
+
+/*******************************
+			VISTAS
+********************************/
+-- Vista 1 (usuarios_por_equipo)
+DELIMITER //
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `proyecto_final_sql`.`usuarios_por_equipo` AS
+    (SELECT 
+        `equ`.`nombre` AS `Equipo`,
+        `proyecto_final_sql`.`rol`.`nombre_rol` AS `Puesto`,
+        CONCAT(`usu`.`nombre`, ' ', `usu`.`apellido`) AS `Nombre`
+    FROM
+        ((`proyecto_final_sql`.`usuario` `usu`
+        JOIN `proyecto_final_sql`.`equipo` `equ` ON (`equ`.`id_equipo` = `usu`.`equipo_id`))
+        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `usu`.`rol_id`)));
+//
+-- Vista 2 (permisos_por_cargo)
+DELIMITER //
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `proyecto_final_sql`.`permisos_por_cargo` AS
+    (SELECT 
+        `proyecto_final_sql`.`rol`.`nombre_rol` AS `Cargo`,
+        `per`.`permiso` AS `permiso`
+    FROM
+        ((`proyecto_final_sql`.`permisos` `per`
+        JOIN `proyecto_final_sql`.`rol_permisos` `rolp` ON (`rolp`.`permisos_id` = `per`.`id_permisos`))
+        JOIN `proyecto_final_sql`.`rol` ON (`proyecto_final_sql`.`rol`.`id_rol` = `rolp`.`rol_id`)));
+//
+-- Vista 3 (equipos por proyecto).
+//
+CREATE VIEW `equipos_por_proyecto` AS
+(SELECT 
+    pro.nombre_proyecto,
+    equ.nombre,
+    CONCAT(usu.nombre, ' ', usu.apellido) AS Nombres,
+    rol.nombre_rol
+FROM
+    proyecto AS pro
+        INNER JOIN
+    equipo AS equ ON pro.equipo_id = equ.id_equipo
+        INNER JOIN
+    usuario AS usu ON equ.id_equipo = usu.equipo_id
+        INNER JOIN
+    rol ON rol.id_rol = usu.rol_id);
+ //   
+-- Vista 4 (documentos_prioridad_estado)
+//
+CREATE VIEW `documentos_prioridad_estado` AS
+SELECT 
+    doc.nombre_doc, pri.prioridad, est.estado
+FROM
+    documento AS doc
+        INNER JOIN
+    prioridad AS pri ON pri.id_prioridad = doc.prioridad_id
+        INNER JOIN
+    estado AS est ON doc.estado_id = est.id_estado;
+//    
+-- Vista 5 (documento prioridad baja DBA)
+//
+CREATE VIEW `documento_prioridad_baja_DBA` AS
+(SELECT 
+    doc.nombre_doc, pri.prioridad, est.estado, CONCAT(usu.nombre, ' ', usu.apellido) AS Nombre, rol.nombre_rol 
+FROM
+    documento AS doc
+        INNER JOIN
+    prioridad AS pri ON pri.id_prioridad = doc.prioridad_id
+        INNER JOIN
+    estado AS est ON doc.estado_id = est.id_estado
+		INNER JOIN 
+	usuario AS usu ON usu.id_usuario = doc.usuario_id
+		INNER JOIN 
+	rol ON rol.id_rol = usu.rol_id
+    WHERE rol.nombre_rol = 'DBA'
+    AND est.estado = 'Activo'
+    AND pri.prioridad = 'Baja');
+//
+DELIMITER ;
 -- **********************
--- ****** TRIGGERS ******
+--      TRIGGERS
 -- **********************
 
 CREATE TABLE log_documentos (
@@ -456,3 +683,59 @@ SELECT * FROM log_historial_contacto;
 -- Ver todos los triggers 
 
 SHOW TRIGGERS FROM proyecto_final_sql;
+
+/********************************************
+		SENTENCIAS
+********************************************/
+
+USE mysql;
+CREATE USER 'GteDesarrollo'@'localhost' IDENTIFIED BY 'gT3D3s4rr0ll0';
+CREATE USER 'Desarrollador'@'localhost' IDENTIFIED BY 'D3s4RROlL4d0r';
+GRANT SELECT ON proyecto_final_sql.* TO 'Desarrollador';
+GRANT SELECT, INSERT, UPDATE ON proyecto_final_sql.* TO 'GteDesarrollo';
+
+SELECT * FROM mysql.USER;
+
+/*******************************************
+		TRASACCIONES
+********************************************/
+
+
+USE proyecto_final_sql;
+SET AUTOCOMMIT = 1;
+SELECT @@AUTOCOMMIT;
+SET AUTOCOMMIT = 0;
+
+START TRANSACTION; 
+DELETE FROM usuario WHERE id_usuario = 11;
+DELETE FROM usuario WHERE id_usuario = 12;
+DELETE FROM usuario WHERE id_usuario = 13;
+DELETE FROM usuario WHERE id_usuario = 14;
+DELETE FROM usuario WHERE id_usuario = 15;
+DELETE FROM usuario WHERE id_usuario = 16;
+DELETE FROM usuario WHERE id_usuario = 17;
+DELETE FROM usuario WHERE id_usuario = 18;
+-- ROLLBACK;
+-- COMMIT;
+START TRANSACTION; 
+select * from documento;
+INSERT INTO documento VALUES('21', 'Trieflex', NULL, CURDATE(), CURDATE(), '3', '1', '2', '2', '2');
+INSERT INTO documento VALUES('22', 'Bigitax', NULL, CURDATE(), CURDATE(), '1', '1', '1', '3', '3');
+INSERT INTO documento VALUES('30', 'Sonising', NULL, CURDATE(), CURDATE(), '2', '2', '2', '4', '4');
+INSERT INTO documento VALUES('24', 'Latilux', NULL, CURDATE(), CURDATE(), '3', '1', '1', '5', '5');
+
+SAVEPOINT primeros_4;
+
+INSERT INTO documento VALUES('25', 'Greeunlam', NULL, CURDATE(), CURDATE(), '1', '1', '2', '6', '1');
+INSERT INTO documento VALUES('26', 'Itu', NULL, CURDATE(), CURDATE(), '2', '2', '1', '7', '2');
+INSERT INTO documento VALUES('27', 'Domainero', NULL, CURDATE(), CURDATE(), '3', '1', '2', '8', '3');
+INSERT INTO documento VALUES('28', 'Itu', NULL, CURDATE(), CURDATE(), '1', '1', '1', '9', '4');
+INSERT INTO documento VALUES('29', 'Stringtoughest', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
+
+SAVEPOINT primeros_8;
+-- RELEASE SAVEPOINT primeros_4;
+-- COMMIT;
+
+SELECT * FROM usuario;
+ROLLBACK;
+SELECT * FROM usuario;
