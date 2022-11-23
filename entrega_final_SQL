@@ -613,7 +613,7 @@ usuario_actual VARCHAR(60),
 PRIMARY KEY(id_historial)
 );
 /*********************************
--- HISTORIAL DE CONTACTOS
+	HISTORIAL DE CONTACTOS
 **********************************/
 
 DELIMITER //
@@ -638,6 +638,18 @@ select * from log_historial_contacto;
 
 -- ****************************
 
+/*********************************
+           LOG BORRADOS
+**********************************/
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` TRIGGER `proyecto_final_sql`.`log_borrados` BEFORE DELETE ON `documento` FOR EACH ROW
+BEGIN
+INSERT INTO log_old_records VALUES (NULL, OLD.id_documento, CURRENT_DATE(), CURRENT_TIME(), OLD.usuario_id, OLD.documento, OLD.proyecto_id);
+-- Guarda una copia de los documentos que son eliminados de las DB
+END
+
+DELIMITER ;
+
 -- Para probar trigger BEFORE DELETE [documento]
 DELETE FROM documento 
 WHERE
@@ -651,25 +663,20 @@ FROM
 
 -- ****************************
 
--- Para probar trigger AFTER INSERT [documento]
+/*********************************
+           LOG CAMBIO DE ROL 
+**********************************/
 
-INSERT INTO documento VALUES('23', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` TRIGGER `proyecto_final_sql`.`log_cambio_rol` AFTER UPDATE ON `usuario` FOR EACH ROW
+BEGIN
 
--- Ver tabla de log 
-SELECT 
-    *
-FROM
-    log_documentos;
+INSERT INTO log_cambio_rol VALUES(NULL, CURRENT_USER(), OLD.id_usuario, OLD.rol_id, NEW.rol_id, CURRENT_DATE(), CURRENT_TIME());
+-- Este trigger registra los cambios de rol realizados, indicando quien realizó el cambio de rol, cuando lo hizo y el rol anterior del usuario. 
 
--- Ver tabla donde se guarda la información
-SELECT 
-    *
-FROM
-    documento;
-
+END
+DELIMITER ;
 -- ****************************
-
-
 
 -- Para probar trigger AFTER update [usuario]
 
@@ -689,6 +696,34 @@ WHERE id_usuario = 21;
 -- Ver log de registros 
 
 SELECT * FROM log_historial_contacto;
+
+
+DELIMITER //
+
+CREATE DEFINER=`root`@`localhost` TRIGGER `proyecto_final_sql`.`log_creación_documento` AFTER INSERT ON `documento` FOR EACH ROW
+BEGIN
+INSERT INTO log_documentos VALUES(NULL, NEW.id_documento, NEW.usuario_id, CURRENT_DATE(), CURRENT_TIME()); 
+-- Guarda un registro de creación de los documentos en el orden en que son creados
+END
+
+DELIMITER ;
+
+-- Para probar trigger AFTER INSERT [documento]
+
+INSERT INTO documento VALUES('23', 'Stringtough', NULL, CURDATE(), CURDATE(), '2', '2', '2', '10', '5');
+
+-- Ver tabla de log 
+SELECT 
+    *
+FROM
+    log_documentos;
+
+-- Ver tabla donde se guarda la información
+SELECT 
+    *
+FROM
+    documento;
+
 
 -- Ver todos los triggers 
 
