@@ -697,6 +697,9 @@ WHERE id_usuario = 21;
 
 SELECT * FROM log_historial_contacto;
 
+/*********************************
+	LOG CREACIÓN DE DOCUMENTO 
+**********************************/
 
 DELIMITER //
 
